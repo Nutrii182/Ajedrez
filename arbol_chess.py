@@ -27,11 +27,15 @@ class arbol():
     		return x'''
 
     def insertar_coor(self,nodo,coordenada):
-    	if(nodo == None):
-    		return None
-    	else:
-    		for x in aux:
-    			nodo.hijos.append(arbol(self.clave(x)))
+        for x in aux:
+            self.busqueda_arbol(nodo.hijos,self.clave(x))
+            nodo.hijos.append(arbol(self.clave(x)))
+
+
+    def busqueda_arbol(self, hijos, busqueda):
+        for x in range(len(hijos)):
+            if(hijos[x].coordenada == busqueda):
+                return hijos.pop(x)
 
     def imprimir(self,nodo,nivel):
     	print(nivel,nodo.coordenada)
@@ -49,15 +53,15 @@ class arbol():
     				aux2.append(y)'''
 
     def tiros(self,hijos):
-    	for x in hijos:
-    		for c in range(len(aux)):
-	    		if x.coordenada == self.clave(aux[c]):
-	    			if aux[c] in aux2:
-	    				pass
-	    			else:
-	    				aux2.append(aux[c])
-	    		else:
-	    			break
+        for x in hijos:
+            for c in range(len(aux)):
+                if x.coordenada == self.clave(aux[c]):
+                    if aux[c] in aux2:
+                        pass
+                    else:
+                        aux2.append(aux[c])
+                else:
+                    break
 
     def jugadas(self):
     	v = board.legal_moves
@@ -71,8 +75,15 @@ class arbol():
 n = arbol("raiz")
 n.jugadas()
 n.insertar_coor(n,aux)
+
+#print(n.busqueda_arbol(n.hijos,"g1"))
+
 n.tiros(n.hijos)
-#n.imprimir(n,"-")
-print(aux)
-print('')
-print(aux2)
+n.imprimir(n,"-")
+
+#print(aux)
+#print('')
+#print("\n->",aux2)
+
+#print("\n")
+#print(board)
