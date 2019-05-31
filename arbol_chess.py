@@ -50,15 +50,19 @@ class arbol():
 
     def tiros(self,hijos):
     	for x in hijos:
-    		for y in aux:
-    			print('*')
-		    	'''if self.clave(y) == x.coordenada:
-		   			aux2.append(y)'''
+    		for c in range(len(aux)):
+	    		if x.coordenada == self.clave(aux[c]):
+	    			if aux[c] in aux2:
+	    				pass
+	    			else:
+	    				aux2.append(aux[c])
+	    		else:
+	    			break
 
     def jugadas(self):
     	v = board.legal_moves
     	for x in v:
-    		#aux.append(self.valida_tiro(str(x)))
+    		#aux.append(self.valida_tiro(str(x))
     		aux.append(str(x))
     	#ran = random.choice(aux)
     	#if ran in aux:
@@ -69,4 +73,6 @@ n.jugadas()
 n.insertar_coor(n,aux)
 n.tiros(n.hijos)
 #n.imprimir(n,"-")
+print(aux)
+print('')
 print(aux2)
