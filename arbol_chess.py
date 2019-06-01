@@ -26,31 +26,55 @@ class arbol():
     	else:
     		return x'''
 
+
     def insertar_coor(self,nodo,coordenada):
         for x in aux:
-            self.busqueda_arbol(nodo.hijos,self.clave(x))
+            self.busquedaEliminarArbolRepetidos(nodo.hijos,self.clave(x))
             nodo.hijos.append(arbol(self.clave(x)))
 
+###########################
 
-    def busqueda_arbol(self, hijos, busqueda):
+        #insertando el tercer nivel
+
+        for x in range(len(aux)):
+            e = self.busquedaOrigen(nodo, aux[x][0:2]) #se puede hacer esto we en aux(aproveche que tenemos los datos ahi) <indice,lo que quiero cortandolo>
+            e.hijos.append(arbol(aux[x][2:4])) # en donde nos retorne lo que encontro el nodo ahi insertamos ahora lo que queremos <indice,lo que quiero cortandolo>
+
+
+    def busquedaOrigen(self, nodo, nodo_buscar): # la funcion que busqueda en el ejemplo del primer arbol que te mostre funciono que es lo que pensaste de regresar el nodo
+        if(nodo.coordenada == nodo_buscar):
+            return nodo
+        else:
+            for x in nodo.hijos:
+                e = self.busquedaOrigen(x, nodo_buscar)
+                if(e != None):
+                    return e
+
+###########################
+
+    def busquedaEliminarArbolRepetidos(self, hijos, busqueda):
         for x in range(len(hijos)):
             if(hijos[x].coordenada == busqueda):
                 return hijos.pop(x)
+
 
     def imprimir(self,nodo,nivel):
     	print(nivel,nodo.coordenada)
     	for n in nodo.hijos:
     		self.imprimir(n,nivel+"-")
 
+
     def clave(self,ubicacion):
     		a = ubicacion[0:2]
     		return a
+
 
     '''def tiros(self,hijos):
     	for x in hijos:
     		for y in aux:
     			if self.clave(y) == x.coordenada:
     				aux2.append(y)'''
+
 
     def tiros(self,hijos):
         for x in hijos:
@@ -62,6 +86,7 @@ class arbol():
                         aux2.append(aux[c])
                 else:
                     break
+
 
     def jugadas(self):
     	v = board.legal_moves
@@ -81,7 +106,13 @@ n.insertar_coor(n,aux)
 n.tiros(n.hijos)
 n.imprimir(n,"-")
 
-#print(aux)
+print(aux)
+
+################
+print("\n")
+#n.inserta_sub_coor(n)
+################
+
 #print('')
 #print("\n->",aux2)
 
