@@ -58,8 +58,8 @@ class arbol():
         indice_ficha = self.ObteniendoPesoFicha(hijos)
         indice_tiro = self.ObteniendoPesoTiro(nodo, hijos, indice_ficha)
 
-        print(indice_ficha)
-        print(indice_tiro)
+        #print(indice_ficha)
+        #print(indice_tiro)
 
         self.tiro(nodo.hijos, indice_ficha, indice_tiro)
 
@@ -70,11 +70,18 @@ class arbol():
             self.heuristica(nodo, hijos)
 
     def Limpiar(self, nodo):
-        aux = ""
-        aux2 = ""
-        auxHijos = []
-        auxTiros = []
-        tiroFinal = []
+        for x in range(len(aux)):
+            aux.pop()
+
+        for x in range(len(aux2)):
+            aux2.pop()
+
+        for x in range(len(auxTiros)):
+            auxTiros.pop()
+
+        for x in range(len(tiroFinal)):
+            tiroFinal.pop()
+
 
     def ObteniendoPesoFicha(self, hijos):
         for x in range(len(hijos)):
@@ -149,6 +156,7 @@ class arbol():
 n = arbol("raiz",0)
 
 while(True):
+
     n.jugadas()
     n.insertar_coor(n,aux)
     n.tiros(n.hijos)
@@ -159,14 +167,23 @@ while(True):
     print(board)
     print("\n")
 
-    n.Limpiar(n)
+
     print(aux)
+    print(aux2)
+
+    n.Limpiar(n)
+
+    print(aux)
+    print(aux2)
 
     print("Tira el jugador: ")
     a = input("Donde desea tirar: ")
-    #h2h4 f1g3 tiros posisbles de principio
-    board.push(chess.Move.from_uci(str(a)))
 
+    x = chess.Move.from_uci(str(a))
+
+    board.push(x)
+
+    #h2h4 f1g3 tiros posisbles de principio
     #n.Limpiar()
 
 
