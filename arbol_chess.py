@@ -20,6 +20,10 @@ class arbol():
     	self.peso = peso
     	self.hijos = []
 
+    def eliminar_nodo(self, nodo):
+        for hijos in nodo.hijos:
+            nodo.hijos.pop()
+            return self.eliminar_nodo(nodo)
 
     def insertar_coor(self,nodo,coordenada):
         for x in aux:
@@ -160,10 +164,10 @@ while(True):
 
     print("Tira el jugador: ")
     a = input("Donde desea tirar: ")
-
     x = chess.Move.from_uci(str(a))
-
     board.push(x)
+
+    n.eliminar_nodo(n)
 
     #h2h4 f1g3 tiros posisbles de principio
     #n.Limpiar()
