@@ -4,14 +4,8 @@ import random
 board = chess.Board()
 aux = []
 aux2 = []
-
 auxHijos = []
 auxTiros = []
-
-tiroFinal = []
-
-
-figuras = {'P': 1, 'N': 2,'B': 3, 'R': 4, 'Q': 5, 'K': 6}
 
 class arbol():
 
@@ -30,16 +24,13 @@ class arbol():
             self.busquedaEliminarArbolRepetidos(nodo.hijos,self.clave(x))
             nodo.hijos.append(arbol(self.clave(x),random.randrange(10)))
 
-###########################
-
-        #insertando el tercer nivel
 
         for x in range(len(aux)):
-            e = self.busquedaOrigen(nodo, aux[x][0:2]) #se puede hacer esto we en aux(aproveche que tenemos los datos ahi) <indice,lo que quiero cortandolo>
-            e.hijos.append(arbol(aux[x][0:4],random.randrange(10))) # en donde nos retorne lo que encontro el nodo ahi insertamos ahora lo que queremos <indice,lo que quiero cortandolo>
+            e = self.busquedaOrigen(nodo, aux[x][0:2])
+            e.hijos.append(arbol(aux[x][0:4],random.randrange(10)))
 
 
-    def busquedaOrigen(self, nodo, nodo_buscar): # la funcion que busqueda en el ejemplo del primer arbol que te mostre funciono que es lo que pensaste de regresar el nodo
+    def busquedaOrigen(self, nodo, nodo_buscar):
         if(nodo.coordenada == nodo_buscar):
             return nodo
         else:
@@ -48,7 +39,6 @@ class arbol():
                 if(e != None):
                     return e
 
-###########################
 
     def busquedaEliminarArbolRepetidos(self, hijos, busqueda):
         for x in range(len(hijos)):
@@ -56,21 +46,28 @@ class arbol():
                 return hijos.pop(x)
 
 
-#########################
-
     def heuristica(self, nodo, hijos):
+        self.jugadas()
+        self.insertar_coor(nodo, aux)
+        self.tiros(nodo.hijos)
+
         indice_ficha = self.ObteniendoPesoFicha(hijos)
         indice_tiro = self.ObteniendoPesoTiro(nodo, hijos, indice_ficha)
 
-        self.tiro(nodo.hijos, indice_ficha, indice_tiro)
+        print(indice_ficha)
+        print(indice_tiro)
 
-        if(tiroFinal[0] != None):
-            x = chess.Move.from_uci(tiroFinal[0])
-            board.push(x)
+        tiro = self.tiro(nodo.hijos, indice_ficha, indice_tiro)
+        print(tiro)
+
+        if tiro == None:
+            self.Limpiar(nodo)
+            self.eliminar_nodo(nodo)
+            self.heuristica(nodo, hijos)
 
         else:
-            self.Limpiar(nodo)
-            self.heuristica(nodo, hijos)
+            x = chess.Move.from_uci(tiro)
+            board.push(x)
 
 
     def Limpiar(self, nodo):
@@ -80,11 +77,11 @@ class arbol():
         for x in range(len(aux2)):
             aux2.pop()
 
+        for x in range(len(auxHijos)):
+            auxHijos.pop()
+
         for x in range(len(auxTiros)):
             auxTiros.pop()
-
-        for x in range(len(tiroFinal)):
-            tiroFinal.pop()
 
 
     def ObteniendoPesoFicha(self, hijos):
@@ -104,17 +101,17 @@ class arbol():
     def tiro(self, hijos, indice_ficha, indice_tiro):
         for x in range(len(hijos)):
             if hijos[x].peso == indice_ficha:
-                self.prueba(hijos[x].hijos, indice_tiro)
-                return
+                return self.prueba(hijos[x].hijos, indice_tiro)
+
 
     def prueba(self, hijos, indice_tiro):
+        tiroFinal =[]
         for x in range(len(hijos)):
             if hijos[x].peso == indice_tiro:
                 tiroFinal.append(hijos[x].coordenada)
+                print("-> ",tiroFinal)
+                return max(tiroFinal)
 
-
-
-#########################
 
     def imprimir(self,nodo,nivel):
     	print(nivel,nodo.coordenada,nodo.peso)
@@ -150,27 +147,25 @@ n = arbol("raiz",0)
 
 while(True):
 
-    n.jugadas()
-    n.insertar_coor(n,aux)
-    n.tiros(n.hijos)
-    #n.imprimir(n,"-")
-    print("\n")
+
     n.heuristica(n, n.hijos)
+    n.imprimir(n,"-")
+
     print("\n")
     print(board)
     print("\n")
 
     n.Limpiar(n)
+    n.eliminar_nodo(n)
 
     print("Tira el jugador: ")
     a = input("Donde desea tirar: ")
     x = chess.Move.from_uci(str(a))
     board.push(x)
 
-    n.eliminar_nodo(n)
+
 
     #h2h4 f1g3 tiros posisbles de principio
-    #n.Limpiar()
 
 
 #print(chess.Piece(2, 0))
