@@ -58,16 +58,16 @@ class arbol():
         indice_ficha = self.ObteniendoPesoFicha(hijos)
         indice_tiro = self.ObteniendoPesoTiro(nodo, hijos, indice_ficha)
 
-        #print(indice_ficha)
-        #print(indice_tiro)
-
         self.tiro(nodo.hijos, indice_ficha, indice_tiro)
 
         if(tiroFinal[0] != None):
-            board.push(chess.Move.from_uci(tiroFinal[0]))
+            x = chess.Move.from_uci(tiroFinal[0])
+            board.push(x)
+
         else:
-            self.Limpiar()
+            self.Limpiar(nodo)
             self.heuristica(nodo, hijos)
+
 
     def Limpiar(self, nodo):
         for x in range(len(aux)):
@@ -123,13 +123,6 @@ class arbol():
         return a
 
 
-    '''def tiros(self,hijos):
-    	for x in hijos:
-    		for y in aux:
-    			if self.clave(y) == x.coordenada:
-    				aux2.append(y)'''
-
-
     def tiros(self,hijos):
         for x in hijos:
             for c in range(len(aux)):
@@ -145,11 +138,7 @@ class arbol():
     def jugadas(self):
     	v = board.legal_moves
     	for x in v:
-    		#aux.append(self.valida_tiro(str(x))
     		aux.append(str(x))
-    	#ran = random.choice(aux)
-    	#if ran in aux:
-    	#	board.push_san(ran)
 
 
 
@@ -167,14 +156,7 @@ while(True):
     print(board)
     print("\n")
 
-
-    print(aux)
-    print(aux2)
-
     n.Limpiar(n)
-
-    print(aux)
-    print(aux2)
 
     print("Tira el jugador: ")
     a = input("Donde desea tirar: ")
