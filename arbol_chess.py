@@ -1,6 +1,3 @@
-# las blancas es la PC (TRUE)(1)
-# las negras somo nosotros (FALSE)(0)
-
 import chess
 import random
 
@@ -66,8 +63,18 @@ class arbol():
 
         self.tiro(nodo.hijos, indice_ficha, indice_tiro)
 
-        print(tiroFinal[0])
+        if(tiroFinal[0] != None):
+            board.push(chess.Move.from_uci(tiroFinal[0]))
+        else:
+            self.Limpiar()
+            self.heuristica(nodo, hijos)
 
+    def Limpiar(self, nodo):
+        aux = ""
+        aux2 = ""
+        auxHijos = []
+        auxTiros = []
+        tiroFinal = []
 
     def ObteniendoPesoFicha(self, hijos):
         for x in range(len(hijos)):
@@ -140,20 +147,28 @@ class arbol():
 
 
 n = arbol("raiz",0)
-n.jugadas()
-n.insertar_coor(n,aux)
 
-#print(n.busqueda_arbol(n.hijos,"g1"))
+while(True):
+    n.jugadas()
+    n.insertar_coor(n,aux)
+    n.tiros(n.hijos)
+    #n.imprimir(n,"-")
+    print("\n")
+    n.heuristica(n, n.hijos)
+    print("\n")
+    print(board)
+    print("\n")
 
-n.tiros(n.hijos)
-n.imprimir(n,"-")
+    n.Limpiar(n)
+    print(aux)
 
-print("\n")
-n.heuristica(n, n.hijos)
-print("\n")
+    print("Tira el jugador: ")
+    a = input("Donde desea tirar: ")
+    #h2h4 f1g3 tiros posisbles de principio
+    board.push(chess.Move.from_uci(str(a)))
 
-print(board)
-print("\n")
+    #n.Limpiar()
+
 
 #print(chess.Piece(2, 0))
 #print(chess.square_distance(2,2))
