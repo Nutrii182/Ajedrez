@@ -69,6 +69,16 @@ class arbol():
             x = chess.Move.from_uci(tiro)
             board.push(x)
 
+            if board.is_check():
+                print('Jaque')
+            else:
+                pass
+
+            if board.is_checkmate():
+                print('Jaque Mate')
+            else:
+                pass
+
 
     def Limpiar(self, nodo):
         for x in range(len(aux)):
@@ -163,7 +173,15 @@ while(True):
     x = chess.Move.from_uci(str(a))
     board.push(x)
 
+    if board.is_check():
+        print('Jaque')
+    else:
+        pass
 
+    if board.is_checkmate():
+        print('Jaque Mate')
+    else:
+        pass
 
     #h2h4 f1g3 tiros posisbles de principio
 
