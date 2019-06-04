@@ -54,11 +54,12 @@ class arbol():
         indice_ficha = self.ObteniendoPesoFicha(hijos)
         indice_tiro = self.ObteniendoPesoTiro(nodo, hijos, indice_ficha)
 
-        print(indice_ficha)
-        print(indice_tiro)
+        #print(indice_ficha)
+        #print(indice_tiro)
 
         tiro = self.tiro(nodo.hijos, indice_ficha, indice_tiro)
         print(tiro)
+        #print(tiro)
 
         if tiro == None:
             self.Limpiar(nodo)
@@ -70,12 +71,13 @@ class arbol():
             board.push(x)
 
             if board.is_check():
-                print('Jaque')
+                print('Jaque al Jugador')
             else:
                 pass
 
             if board.is_checkmate():
-                print('Jaque Mate')
+                print('Jaque Mate al jugador')
+                board.is_game_over()
             else:
                 pass
 
@@ -119,7 +121,7 @@ class arbol():
         for x in range(len(hijos)):
             if hijos[x].peso == indice_tiro:
                 tiroFinal.append(hijos[x].coordenada)
-                print("-> ",tiroFinal)
+                #print("-> ",tiroFinal)
                 return max(tiroFinal)
 
 
@@ -159,10 +161,10 @@ while(True):
 
 
     n.heuristica(n, n.hijos)
-    n.imprimir(n,"-")
+    #n.imprimir(n,"-")
 
     print("\n")
-    print(board)
+    print(board.unicode())
     print("\n")
 
     n.Limpiar(n)
@@ -179,7 +181,8 @@ while(True):
         pass
 
     if board.is_checkmate():
-        print('Jaque Mate')
+        print('Jaque Mate al jugador')
+        board.is_game_over()
     else:
         pass
 
