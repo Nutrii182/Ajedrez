@@ -198,12 +198,12 @@ while(True):
 
 
     if board.is_check():
-        print('Jaque')
+        print('Jaque a la maquina')
     else:
         pass
 
     if board.is_checkmate():
-        print('Jaque Mate al jugador')
+        print('Jaque Mate a la maquina')
         board.is_game_over()
     else:
         pass
