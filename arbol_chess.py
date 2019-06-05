@@ -1,5 +1,6 @@
 import chess
 import random
+import time
 
 board = chess.Board()
 aux = []
@@ -53,13 +54,10 @@ class arbol():
 
         indice_ficha = self.ObteniendoPesoFicha(hijos)
         indice_tiro = self.ObteniendoPesoTiro(nodo, hijos, indice_ficha)
-
-        #print(indice_ficha)
-        #print(indice_tiro)
-
         tiro = self.tiro(nodo.hijos, indice_ficha, indice_tiro)
-        print(tiro)
-        #print(tiro)
+
+        if tiro != None:
+            print("Tiro de maquina: ",tiro)
 
         if tiro == None:
             self.Limpiar(nodo)
@@ -121,7 +119,6 @@ class arbol():
         for x in range(len(hijos)):
             if hijos[x].peso == indice_tiro:
                 tiroFinal.append(hijos[x].coordenada)
-                #print("-> ",tiroFinal)
                 return max(tiroFinal)
 
 
@@ -154,11 +151,12 @@ class arbol():
     		aux.append(str(x))
 
 
-
 n = arbol("raiz",0)
 
 while(True):
-
+    print("\n------------------------------------ \n")
+    start_time = time.time()
+    print("Tiempo de ejecución --> ", time.time() - start_time)
 
     n.heuristica(n, n.hijos)
     #n.imprimir(n,"-")
@@ -170,7 +168,7 @@ while(True):
     n.Limpiar(n)
     n.eliminar_nodo(n)
 
-    print("Tira el jugador: ")
+    print("Tira el jugador ")
     a = input("Donde desea tirar: ")
     x = chess.Move.from_uci(str(a))
     board.push(x)
@@ -186,8 +184,7 @@ while(True):
     else:
         pass
 
-    #h2h4 f1g3 tiros posisbles de principio
-
+#h2h4 f1g3 tiros posisbles de principio
 
 #print(chess.Piece(2, 0))
 #print(chess.square_distance(2,2))
