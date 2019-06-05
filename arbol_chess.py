@@ -15,10 +15,12 @@ class arbol():
     	self.peso = peso
     	self.hijos = []
 
+
     def eliminar_nodo(self, nodo):
         for hijos in nodo.hijos:
             nodo.hijos.pop()
             return self.eliminar_nodo(nodo)
+
 
     def insertar_coor(self,nodo,coordenada):
         for x in aux:
@@ -26,9 +28,11 @@ class arbol():
             nodo.hijos.append(arbol(self.clave(x),random.randrange(10)))
 
 
+
         for x in range(len(aux)):
             e = self.busquedaOrigen(nodo, aux[x][0:2])
             e.hijos.append(arbol(aux[x][0:4],random.randrange(10)))
+
 
 
     def busquedaOrigen(self, nodo, nodo_buscar):
@@ -41,23 +45,46 @@ class arbol():
                     return e
 
 
+
     def busquedaEliminarArbolRepetidos(self, hijos, busqueda):
         for x in range(len(hijos)):
             if(hijos[x].coordenada == busqueda):
                 return hijos.pop(x)
 
 
+
     def heuristica(self, nodo, hijos):
         self.jugadas()
         self.insertar_coor(nodo, aux)
-        self.tiros(nodo.hijos)
 
         indice_ficha = self.ObteniendoPesoFicha(hijos)
         indice_tiro = self.ObteniendoPesoTiro(nodo, hijos, indice_ficha)
-        tiro = self.tiro(nodo.hijos, indice_ficha, indice_tiro)
+        tiro = self.encontrandoFicha(nodo.hijos, indice_ficha, indice_tiro)
 
         if tiro != None:
+            #board.variation_san([chess.Move.from_uci(m) for m in ["e2e4", "e7e5", "g1f3"]])
             print("Tiro de maquina: ",tiro)
+            print("Prueba ----->",board.piece_at(chess.C5))
+            print("Moviminetos ----> ",board.legal_moves.count())
+
+            print("\n")
+            print(board.unicode())
+            print("\n")
+
+            print("1. Continuar")
+            print("2. Lado para moverse")
+            j = int(input("Opcion: "))
+
+            if(j == 1):
+                pass
+
+            elif(j == 2):
+                print(board.fullmove_number)
+
+            else:
+                print("Error !")
+
+
 
         if tiro == None:
             self.Limpiar(nodo)
@@ -80,6 +107,7 @@ class arbol():
                 pass
 
 
+
     def Limpiar(self, nodo):
         for x in range(len(aux)):
             aux.pop()
@@ -94,10 +122,12 @@ class arbol():
             auxTiros.pop()
 
 
+
     def ObteniendoPesoFicha(self, hijos):
         for x in range(len(hijos)):
             auxHijos.append(hijos[x].peso)
         return max(auxHijos)
+
 
 
     def ObteniendoPesoTiro(self, nodo, hijos, num_buscar_max):
@@ -108,13 +138,15 @@ class arbol():
         return max(auxTiros)
 
 
-    def tiro(self, hijos, indice_ficha, indice_tiro):
+
+    def encontrandoFicha(self, hijos, indice_ficha, indice_tiro):
         for x in range(len(hijos)):
             if hijos[x].peso == indice_ficha:
-                return self.prueba(hijos[x].hijos, indice_tiro)
+                return self.encontrandoTiro(hijos[x].hijos, indice_tiro)
 
 
-    def prueba(self, hijos, indice_tiro):
+
+    def encontrandoTiro(self, hijos, indice_tiro):
         tiroFinal =[]
         for x in range(len(hijos)):
             if hijos[x].peso == indice_tiro:
@@ -122,27 +154,11 @@ class arbol():
                 return max(tiroFinal)
 
 
-    def imprimir(self,nodo,nivel):
-    	print(nivel,nodo.coordenada,nodo.peso)
-    	for n in nodo.hijos:
-    		self.imprimir(n,nivel+"-")
-
 
     def clave(self,ubicacion):
         a = ubicacion[0:2]
         return a
 
-
-    def tiros(self,hijos):
-        for x in hijos:
-            for c in range(len(aux)):
-                if x.coordenada == self.clave(aux[c]):
-                    if aux[c] in aux2:
-                        pass
-                    else:
-                        aux2.append(aux[c])
-                else:
-                    break
 
 
     def jugadas(self):
@@ -151,9 +167,17 @@ class arbol():
     		aux.append(str(x))
 
 
+
+    def imprimir(self,nodo,nivel):
+    	print(nivel,nodo.coordenada,nodo.peso)
+    	for n in nodo.hijos:
+    		self.imprimir(n,nivel+"-")
+
+
 n = arbol("raiz",0)
 
 while(True):
+
     print("\n------------------------------------ \n")
     start_time = time.time()
     print("Tiempo de ejecución --> ", time.time() - start_time)
@@ -161,17 +185,17 @@ while(True):
     n.heuristica(n, n.hijos)
     #n.imprimir(n,"-")
 
-    print("\n")
-    print(board.unicode())
-    print("\n")
 
     n.Limpiar(n)
     n.eliminar_nodo(n)
 
+    #print(board.piece_map())
+
     print("Tira el jugador ")
     a = input("Donde desea tirar: ")
-    x = chess.Move.from_uci(str(a))
+    x = chess.Move.from_uci(a)
     board.push(x)
+
 
     if board.is_check():
         print('Jaque')
@@ -183,12 +207,3 @@ while(True):
         board.is_game_over()
     else:
         pass
-
-#h2h4 f1g3 tiros posisbles de principio
-
-#print(chess.Piece(2, 0))
-#print(chess.square_distance(2,2))
-#print(board.piece_at(56))
-#print(board.piece_type_at(3))
-
-#random.choice(aux)
