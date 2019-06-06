@@ -3,17 +3,21 @@ import random
 import time
 
 board = chess.Board()
+
 aux = []
 aux2 = []
+aux3 = []
 auxHijos = []
 auxTiros = []
 
 class arbol():
 
-    def __init__(self,coordenada,peso):
-    	self.coordenada = coordenada
-    	self.peso = peso
-    	self.hijos = []
+    def __init__(self, coordenada, peso, tipo):
+        self.coordenada = coordenada
+        self.peso = peso
+        self.tipo = tipo
+        self.hijos = []
+
 
 
     def eliminar_nodo(self, nodo):
@@ -22,16 +26,17 @@ class arbol():
             return self.eliminar_nodo(nodo)
 
 
+
     def insertar_coor(self,nodo,coordenada):
         for x in aux:
             self.busquedaEliminarArbolRepetidos(nodo.hijos,self.clave(x))
-            nodo.hijos.append(arbol(self.clave(x),random.randrange(10)))
+            nodo.hijos.append(arbol(self.clave(x),random.randrange(10), 1)) #agrega el tipo de ficha
 
 
 
         for x in range(len(aux)):
             e = self.busquedaOrigen(nodo, aux[x][0:2])
-            e.hijos.append(arbol(aux[x][0:4],random.randrange(10)))
+            e.hijos.append(arbol(aux[x][0:4],random.randrange(10), 1)) #agrega el tipo de ficha
 
 
 
@@ -62,28 +67,8 @@ class arbol():
         tiro = self.encontrandoFicha(nodo.hijos, indice_ficha, indice_tiro)
 
         if tiro != None:
-            #board.variation_san([chess.Move.from_uci(m) for m in ["e2e4", "e7e5", "g1f3"]])
-            print("Tiro de maquina: ",tiro)
-            print("Prueba ----->",board.piece_at(chess.C5))
+            print("Tiro de maquina (Negras): ",tiro)
             print("Moviminetos ----> ",board.legal_moves.count())
-
-            print("\n")
-            print(board.unicode())
-            print("\n")
-
-            print("1. Continuar")
-            print("2. Lado para moverse")
-            j = int(input("Opcion: "))
-
-            if(j == 1):
-                pass
-
-            elif(j == 2):
-                print(board.fullmove_number)
-
-            else:
-                print("Error !")
-
 
 
         if tiro == None:
@@ -162,9 +147,9 @@ class arbol():
 
 
     def jugadas(self):
-    	v = board.legal_moves
-    	for x in v:
-    		aux.append(str(x))
+        v = board.legal_moves
+        for x in v:
+            aux.append(str(x))
 
 
 
@@ -174,7 +159,7 @@ class arbol():
     		self.imprimir(n,nivel+"-")
 
 
-n = arbol("raiz",0)
+n = arbol("raiz",0,0)
 
 while(True):
 
@@ -183,15 +168,16 @@ while(True):
     print("Tiempo de ejecución --> ", time.time() - start_time)
 
     n.heuristica(n, n.hijos)
-    #n.imprimir(n,"-")
 
+    print("\n")
+    print(board.unicode())
+    print("\n")
+    #n.imprimir(n,"-")
 
     n.Limpiar(n)
     n.eliminar_nodo(n)
 
-    #print(board.piece_map())
-
-    print("Tira el jugador ")
+    print("Tira el jugador (Blancas) ")
     a = input("Donde desea tirar: ")
     x = chess.Move.from_uci(a)
     board.push(x)
