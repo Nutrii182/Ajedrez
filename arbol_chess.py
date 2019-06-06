@@ -30,13 +30,13 @@ class arbol():
     def insertar_coor(self,nodo,coordenada):
         for x in aux:
             self.busquedaEliminarArbolRepetidos(nodo.hijos,self.clave(x))
-            nodo.hijos.append(arbol(self.clave(x),random.randrange(10), 1)) #agrega el tipo de ficha
+            nodo.hijos.append(arbol(self.clave(x),random.randrange(10), 1))
 
 
 
         for x in range(len(aux)):
             e = self.busquedaOrigen(nodo, aux[x][0:2])
-            e.hijos.append(arbol(aux[x][0:4],random.randrange(10), 1)) #agrega el tipo de ficha
+            e.hijos.append(arbol(aux[x][0:4],random.randrange(10), 1))
 
 
 
