@@ -171,10 +171,6 @@ while(True):
 
     print("\n")
     print(board.unicode())
-    print("\n")
-    #n.imprimir(n,"-")
-
-    n.Limpiar(n)
     n.eliminar_nodo(n)
 
     print("Tira el jugador (Blancas) ")
